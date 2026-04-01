@@ -1,0 +1,42 @@
+## Carpetas de compilacion y build
+[Bb]in/
+[Oo]bj/
+
+## Archivos de usuario de Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Archivos de solucion generados por VS (no el .slnx que sube el alumno)
+.vs/
+
+## Publicaciones
+publish/
+[Pp]ublish/
+
+## Archivos de NuGet locales (se restauran automaticamente)
+*.nupkg
+**/packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Logs de NuGet
+*.nuget.lock.json
+
+## Carpeta de configuracion de VSCode (opcional, dependiendo del equipo)
+.vscode/
+
+## Archivos temporales del sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+## Secretos o datos sensibles - NO se suben
+**/appsettings.Development.json
+
+## Logs de la app
+*.log

@@ -1,0 +1,76 @@
+@model IEnumerable<Examen_T1.Models.VentasAnio>
+
+@{
+    ViewData["Title"] = "Ventas por Anio";
+    int year = ViewBag.Year ?? DateTime.Now.Year;
+    int page = ViewBag.Page ?? 1;
+    int totalPaginas = ViewBag.TotalPaginas ?? 0;
+    int totalRegistros = ViewBag.TotalRegistros ?? 0;
+}
+
+<h2 class="mb-3">Consulta Ventas por Anio</h2>
+
+<form method="get" asp-action="VentasPorAnio" class="row g-3 align-items-end mb-3">
+    <div class="col-md-4">
+        <label for="year" class="form-label">Anio</label>
+        <input id="year" name="year" type="number" class="form-control" value="@year" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Consultar</button>
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+        <tr>
+            <th>Numero Venta</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Vendedor</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center">No hay ventas para el anio consultado.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.NumVta</td>
+                    <td>@item.FecVta.ToString("dd/MM/yyyy")</td>
+                    <td>@item.NomCli</td>
+                    <td>@item.NomVen</td>
+                    <td>@item.TotVta.ToString("0.00")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@if (totalRegistros > 0 && totalPaginas > 1)
+{
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(page <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="VentasPorAnio" asp-route-year="@year" asp-route-page="@(page - 1)">Anterior</a>
+            </li>
+
+            @for (int i = 1; i <= totalPaginas; i++)
+            {
+                <li class="page-item @(i == page ? "active" : "")">
+                    <a class="page-link" asp-action="VentasPorAnio" asp-route-year="@year" asp-route-page="@i">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(page >= totalPaginas ? "disabled" : "")">
+                <a class="page-link" asp-action="VentasPorAnio" asp-route-year="@year" asp-route-page="@(page + 1)">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+}

@@ -1,0 +1,38 @@
+@model IEnumerable<Examen_T1.Models.Articulo>
+
+<h4>Listado de Articulos</h4>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+        <tr>
+            <th>Codigo</th>
+            <th>Articulo</th>
+            <th>Unidad</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Categoria</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6" class="text-center">No hay registros.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CodArt</td>
+                    <td>@item.NomArt</td>
+                    <td>@item.UniMed</td>
+                    <td>@item.PreArt.ToString("0.00")</td>
+                    <td>@item.StkArt</td>
+                    <td>@item.NomCat</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

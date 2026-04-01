@@ -1,0 +1,69 @@
+@model Examen_T1.Models.Articulo
+@using Examen_T1.Models
+
+@{
+    ViewData["Title"] = "Mantenimiento de Articulos";
+    var articulos = ViewBag.Articulos as List<Articulo> ?? new List<Articulo>();
+}
+
+<h2 class="mb-3">Mantenimiento de Articulos</h2>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Mensaje))
+{
+    <div class="alert alert-info">@ViewBag.Mensaje</div>
+}
+
+<form asp-action="Agregar" method="post" class="row g-3">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-3">
+        <label asp-for="CodArt" class="form-label"></label>
+        <input asp-for="CodArt" class="form-control" />
+        <span asp-validation-for="CodArt" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-5">
+        <label asp-for="NomArt" class="form-label"></label>
+        <input asp-for="NomArt" class="form-control" />
+        <span asp-validation-for="NomArt" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="UniMed" class="form-label"></label>
+        <input asp-for="UniMed" class="form-control" />
+        <span asp-validation-for="UniMed" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="PreArt" class="form-label"></label>
+        <input asp-for="PreArt" class="form-control" />
+        <span asp-validation-for="PreArt" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="StkArt" class="form-label"></label>
+        <input asp-for="StkArt" class="form-control" />
+        <span asp-validation-for="StkArt" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="CodCat" class="form-label"></label>
+        <select asp-for="CodCat" asp-items="ViewBag.Categorias" class="form-select">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span asp-validation-for="CodCat" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Agregar</button>
+        <a asp-action="Agregar" class="btn btn-outline-secondary ms-2">Limpiar</a>
+    </div>
+</form>
+
+<hr />
+
+<partial name="_ListaArticulos" model="articulos" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
