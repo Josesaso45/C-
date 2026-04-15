@@ -1,0 +1,6 @@
+@DSW1_T2_JOSE_MONTERO_Api_HostAddress = http://localhost:5056
+
+GET {{DSW1_T2_JOSE_MONTERO_Api_HostAddress}}/api/cursos
+Accept: application/json
+
+###

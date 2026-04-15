@@ -1,0 +1,53 @@
+@model DSW1_T2_JOSE_MONTERO.Cliente.Models.CursoBajaViewModel
+
+@{
+    ViewData["Title"] = "DarDeBajaCurso";
+}
+
+<h2 class="mb-3">Dar de Baja Curso</h2>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Mensaje))
+{
+    <div class="alert alert-info">@ViewBag.Mensaje</div>
+}
+
+@if (Model.Aforo > 0)
+{
+    <div class="alert alert-warning">
+        Este curso tiene alumnos inscritos. Al confirmar, tambien se registrara en la tabla de cursos archivados.
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Codigo</dt>
+            <dd class="col-sm-8">@Model.IdCurso</dd>
+
+            <dt class="col-sm-4">Nombre del curso</dt>
+            <dd class="col-sm-8">@Model.NombreCurso</dd>
+
+            <dt class="col-sm-4">Cantidad de estudiantes</dt>
+            <dd class="col-sm-8">@Model.Aforo</dd>
+
+            <dt class="col-sm-4">Fecha de creacion</dt>
+            <dd class="col-sm-8">@Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="DarDeBajaCurso" method="post" class="mt-4">
+    <input asp-for="IdBaja" type="hidden" />
+    <input asp-for="IdCurso" type="hidden" />
+    <input asp-for="NombreCurso" type="hidden" />
+    <input asp-for="Aforo" type="hidden" />
+    <input asp-for="FechaCreacion" type="hidden" />
+    <input asp-for="InitialesBusqueda" type="hidden" />
+
+    <button type="submit" class="btn btn-danger">Confirmar Baja</button>
+    <a asp-action="IndexCursos"
+       asp-route-iniciales="@Model.InitialesBusqueda"
+       class="btn btn-outline-secondary ms-2">
+        Regresar
+    </a>
+</form>

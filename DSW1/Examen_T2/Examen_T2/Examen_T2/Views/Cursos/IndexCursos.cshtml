@@ -1,0 +1,116 @@
+@model DSW1_T2_JOSE_MONTERO.Cliente.Models.CursoListadoViewModel
+
+@{
+    ViewData["Title"] = "IndexCursos";
+}
+
+<h2 class="mb-3">Listado de Cursos</h2>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Mensaje))
+{
+    <div class="alert alert-success">@ViewBag.Mensaje</div>
+}
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.MensajeError))
+{
+    <div class="alert alert-danger">@ViewBag.MensajeError</div>
+}
+
+<form method="get" asp-action="IndexCursos" class="row g-3 align-items-end mb-4">
+    <div class="col-md-6">
+        <label for="iniciales" class="form-label">Iniciales del nombre del curso</label>
+        <input id="iniciales" name="iniciales" class="form-control" value="@Model.Initiales" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+    </div>
+    <div class="col-md-2">
+        <a asp-action="IndexCursos" class="btn btn-outline-secondary w-100">Limpiar</a>
+    </div>
+</form>
+
+@if (string.IsNullOrWhiteSpace(Model.Initiales))
+{
+    <div class="alert alert-info">
+        Ingrese las iniciales del curso para visualizar la lista.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Codigo</th>
+                <th>Curso</th>
+                <th>Aforo</th>
+                <th>Fecha de Creacion</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Cursos.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No se encontraron cursos disponibles.</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Cursos)
+                {
+                    <tr>
+                        <td>@item.IdCurso</td>
+                        <td>@item.NombreCurso</td>
+                        <td>@item.Aforo</td>
+                        <td>@item.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="text-center">
+                            <a asp-action="DarDeBajaCurso"
+                               asp-route-idCurso="@item.IdCurso"
+                               asp-route-iniciales="@Model.Initiales"
+                               class="btn btn-sm btn-danger">
+                                Dar Baja
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    @if (Model.TotalRegistros > 0 && Model.TotalPaginas > 1)
+    {
+        <nav>
+            <ul class="pagination">
+                <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="IndexCursos"
+                       asp-route-iniciales="@Model.Initiales"
+                       asp-route-page="@(Model.Page - 1)">
+                        Anterior
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= Model.TotalPaginas; i++)
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="IndexCursos"
+                           asp-route-iniciales="@Model.Initiales"
+                           asp-route-page="@i">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.Page >= Model.TotalPaginas ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="IndexCursos"
+                       asp-route-iniciales="@Model.Initiales"
+                       asp-route-page="@(Model.Page + 1)">
+                        Siguiente
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    }
+}
